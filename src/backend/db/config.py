@@ -1,10 +1,10 @@
-from json import load
 import os
-import re
 import sqlalchemy
 from dotenv import load_dotenv
 
 from typing import Optional
+from sqlalchemy.engine import Engine
+
 
 
 def _build_database_url() -> str:
@@ -25,6 +25,17 @@ def _build_database_url() -> str:
     name     = os.getenv("DB_NAME", "unipacman")
 
     return f"posgresql+psycopg2://{user}:{password}@{host}:{port}/{name}"
-    
 
-    
+
+def get_engine(echo: Optional[bool] = False) -> sqlalchemy.engine.Engine:
+    """Create a SQLAlchemy Engine."""
+    """ echo=True enables SQL logging for learning/debugging. """
+    url = _build_database_url()
+    return sqlalchemy.create_engine(url, echo= bool(echo), future=True)
+
+
+def get_session_maker(engine: Engine) -> sqlalchemy.orm.sessionmaker:
+    """Create a SQLAlchemy SessionMaker."""
+    if engine is None:
+        engine = get_engine()
+        return sessionmaker(bind=engine, autocommit=False, autoflush=False, autocommit=False, future=True, class_=sqlalchemy.orm.Session)
