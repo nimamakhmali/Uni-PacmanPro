@@ -1,0 +1,37 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+entity users {
+  *id : int <<PK>>
+  username : varchar(32) <<UNIQUE>>
+  email : varchar(128) <<UNIQUE>>
+  display_name : varchar(64)
+  password_hash : varchar(256)
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+entity scores {
+  *id : int <<PK>>
+  user_id : int <<FK users.id>>
+  points : int
+  level : int
+  duration_ms : int
+  created_at : timestamptz
+}
+
+entity game_sessions {
+  *id : int <<PK>>
+  mode : enum('solo','multi')
+  status : enum('pending','active','finished')
+  started_at : timestamptz
+  ended_at : timestamptz
+  winner_user_id : int <<FK users.id>>
+}
+
+users ||--o{ scores : has
+users ||--o{ game_sessions : wins
+
+@enduml
