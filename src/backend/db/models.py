@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Integer
 from sqlalchemy import ForeignKey
+from sqlalchemy import String as _String  # for enums via CHECK if needed
 from sqlalchemy.orm import DeclarativeBase, mapped_column
 from sqlalchemy import Mapped, String, DateTime, func
 
@@ -33,3 +34,14 @@ class Score(Base):
     level: Mapped[int] = mapped_column(Integer, nullable=True, index=True)
     duration_ms: Mapped[int] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), index=True)
+
+
+class GameSession(Base):
+    __tablename__ = "game_sessions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    mode: Mapped[str] = mapped_column(_String(16), nullable=False)  # 'solo' | 'multi'
+    status: Mapped[str] = mapped_column(_String(16), nullable=False)  # 'pending' | 'active' | 'finished'
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), index=True)
+    ended_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
+    winner_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
