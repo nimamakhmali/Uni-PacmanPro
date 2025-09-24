@@ -60,3 +60,9 @@ python -m src.backend.scripts.leaderboard_queries --limit 20 --level 2
 python -m src.backend.scripts.leaderboard_queries --since-days 7
 ```
 
+## Run tests
+```powershell
+pip install -r requirements.txt
+pytest -q
+```
+
