@@ -52,6 +52,11 @@ python -m src.backend.scripts.seed_db
 
 ## Leaderboard queries (demo)
 ```powershell
+# default
 python -m src.backend.scripts.leaderboard_queries
+
+# with params
+python -m src.backend.scripts.leaderboard_queries --limit 20 --level 2
+python -m src.backend.scripts.leaderboard_queries --since-days 7
 ```
 
