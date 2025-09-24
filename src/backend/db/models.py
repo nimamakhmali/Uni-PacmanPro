@@ -16,6 +16,7 @@ class User(Base):
                                     primary_key=True,
                                     index=True)
     username: Mapped[str] = mapped_column(String(32), unique=True, nullable=False, index=True)
+    email: Mapped[str | None] = mapped_column(String(128), unique=True, nullable=True, index=True)
     display_name: Mapped[str] = mapped_column(String(64), nullable=True)
     password_hash: Mapped[str] = mapped_column(String(256), nullable=False)
 
