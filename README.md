@@ -44,3 +44,9 @@ alembic revision -m "add score table"
 alembic downgrade -1
 ```
 
+## Seed demo data
+```powershell
+pip install -r requirements.txt
+python -m src.backend.scripts.seed_db
+```
+
